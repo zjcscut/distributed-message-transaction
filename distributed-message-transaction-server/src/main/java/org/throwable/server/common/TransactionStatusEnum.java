@@ -12,6 +12,22 @@ public enum TransactionStatusEnum {
 
     SUCCESS,
 
-    ROLLBACK
+    ROLLBACK;
 
+    public static TransactionStatusEnum fromValue(Integer value) {
+        for (TransactionStatusEnum statusEnum : TransactionStatusEnum.values()) {
+            if (statusEnum.ordinal() == value) {
+                return statusEnum;
+            }
+        }
+        return null;
+    }
+
+    public static boolean isTerminal(TransactionStatusEnum status) {
+        return null != status && (TransactionStatusEnum.SUCCESS.equals(status) || TransactionStatusEnum.ROLLBACK.equals(status));
+    }
+
+    public static boolean isTerminal(Integer value) {
+        return isTerminal(fromValue(value));
+    }
 }
