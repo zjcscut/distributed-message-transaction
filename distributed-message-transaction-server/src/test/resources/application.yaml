@@ -1,0 +1,13 @@
+server:
+  port: 9100
+spring:
+  application:
+    name: ${project.artifactId:distributed-message-transaction-server}
+dmt:
+  server:
+    druid:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/dmt_server?useSSL=false
+      password: root
+      username: root
+      enable: true
