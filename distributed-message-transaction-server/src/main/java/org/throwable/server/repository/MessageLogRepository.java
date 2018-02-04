@@ -1,5 +1,7 @@
 package org.throwable.server.repository;
 
+import org.throwable.server.model.entity.MessageLog;
+
 /**
  * @author throwable
  * @version v1.0
@@ -7,4 +9,9 @@ package org.throwable.server.repository;
  * @since 2018/2/2 15:27
  */
 public interface MessageLogRepository {
+
+    MessageLog findByTransactionId(String transactionId);
+
+    int save(MessageLog messageLog);
+
 }

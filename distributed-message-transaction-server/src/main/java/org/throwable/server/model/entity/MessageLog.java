@@ -1,6 +1,9 @@
 package org.throwable.server.model.entity;
 
+import lombok.Data;
 import org.throwable.server.common.TransactionStatusEnum;
+
+import java.util.Date;
 
 /**
  * @author throwable
@@ -8,11 +11,23 @@ import org.throwable.server.common.TransactionStatusEnum;
  * @description
  * @since 2018/2/2 15:46
  */
+@Data
 public class MessageLog {
 
     private Long id;
-
+    private String transactionId;
+    private String businessSign;
+    private String applicationName;
+    private String instanceSign;
     private Integer transactionStatus;
+    private Integer globalStatus;
+    private String triggerQueue;
+    private String checkQueue;
+    private String checkerClassName;
+    private Date createTime;
+    private Date triggerTime;
+    private Date pushTime;
+
 
     public void setTransactionStatusEnum(TransactionStatusEnum transactionStatusEnum) {
         this.transactionStatus = transactionStatusEnum.ordinal();

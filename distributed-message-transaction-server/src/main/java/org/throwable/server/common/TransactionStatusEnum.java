@@ -8,10 +8,19 @@ package org.throwable.server.common;
  */
 public enum TransactionStatusEnum {
 
+    /**
+     * 初始状态：已注册
+     */
     REGISTERED,
 
+    /**
+     * 终态：本地事务执行成功
+     */
     SUCCESS,
 
+    /**
+     * 终态：本地事务回滚
+     */
     ROLLBACK;
 
     public static TransactionStatusEnum fromValue(Integer value) {
