@@ -2,7 +2,8 @@ package org.throwable.server.support;
 
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.beans.factory.InitializingBean;
-import org.throwable.server.support.listener.MessageTransctionRegisterListener;
+import org.throwable.server.support.listener.MessageTransactionConfirmListener;
+import org.throwable.server.support.listener.MessageTransactionRegisterListener;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,7 +21,8 @@ public class ListenerContainerManager implements InitializingBean {
     private final ListenerContainerFactory factory;
 
     static {
-        INTERNAL_LISTENERS.add(MessageTransctionRegisterListener.class.getName());
+        INTERNAL_LISTENERS.add(MessageTransactionRegisterListener.class.getName());
+        INTERNAL_LISTENERS.add(MessageTransactionConfirmListener.class.getName());
     }
 
     public ListenerContainerManager(ListenerContainerRegistrar registrar, ListenerContainerFactory factory) {

@@ -11,7 +11,7 @@ import lombok.ToString;
  */
 @ToString
 @Data
-public class MessageTransctionRegisterVO {
+public class MessageTransactionRegisterVO {
 
     private String transactionId;
     private String businessSign;

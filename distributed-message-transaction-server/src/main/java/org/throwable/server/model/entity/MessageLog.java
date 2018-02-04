@@ -28,7 +28,6 @@ public class MessageLog {
     private Date triggerTime;
     private Date pushTime;
 
-
     public void setTransactionStatusEnum(TransactionStatusEnum transactionStatusEnum) {
         this.transactionStatus = transactionStatusEnum.ordinal();
     }

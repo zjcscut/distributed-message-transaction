@@ -3,7 +3,7 @@ package org.throwable.server.common;
 /**
  * @author throwable
  * @version v1.0
- * @description
+ * @description 事务状态枚举
  * @since 2018/2/2 18:25
  */
 public enum TransactionStatusEnum {

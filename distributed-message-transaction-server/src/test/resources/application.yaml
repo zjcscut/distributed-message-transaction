@@ -16,3 +16,8 @@ dmt:
       password: root
       username: root
       enable: true
+    base:
+      register-concurrent-consumer-number: 10
+      register-max-concurrent-consumer-number: 20
+      confirm-concurrent-consumer-number: 10
+      confirm-max-concurrent-consumer-number: 20
