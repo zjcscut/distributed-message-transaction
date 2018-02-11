@@ -2,6 +2,8 @@ package org.throwable.client.support;
 
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
+import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 /**
  * @author throwable
@@ -9,16 +11,17 @@ import org.springframework.core.env.Environment;
  * @description
  * @since 2018/2/11 17:12
  */
-public class ApplicationInfoExtractor implements EnvironmentAware{
+public class ApplicationInfoExtractor implements EnvironmentAware {
 
-    private Environment environment;
+    private String applicationName;
 
     @Override
     public void setEnvironment(Environment environment) {
-        this.environment = environment;
+        applicationName = environment.getProperty("spring.application.name");
+        Assert.isTrue(StringUtils.hasText(applicationName), "spring.application.name must not be null");
     }
 
-    public String extractApplicationName(){
-        return environment.getProperty("spring.application.name");
+    public String extractApplicationName() {
+        return applicationName;
     }
 }
