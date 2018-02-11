@@ -31,6 +31,11 @@
       "sourceType": "org.throwable.server.configuration.DruidProperties"
     },
     {
+      "name": "dmt.server.base.keygen-worker-id",
+      "type": "java.lang.Long",
+      "sourceType": "org.throwable.server.configuration.BaseServerProperties"
+    },
+    {
       "name": "dmt.server.base.confirm-interval-millisecond",
       "type": "java.lang.Long",
       "sourceType": "org.throwable.server.configuration.BaseServerProperties"
@@ -52,6 +57,16 @@
     },
     {
       "name": "dmt.server.base.confirm-max-concurrent-consumer-number",
+      "type": "java.lang.Integer",
+      "sourceType": "org.throwable.server.configuration.BaseServerProperties"
+    },
+    {
+      "name": "dmt.server.base.delay-confirm-concurrent-consumer-number",
+      "type": "java.lang.Integer",
+      "sourceType": "org.throwable.server.configuration.BaseServerProperties"
+    },
+    {
+      "name": "dmt.server.base.delay-confirm-max-concurrent-consumer-number",
       "type": "java.lang.Integer",
       "sourceType": "org.throwable.server.configuration.BaseServerProperties"
     }

@@ -12,4 +12,5 @@ public interface MessageContentRepository {
 
     MessageContent findByMessageLogId(Long id);
 
+    int save(MessageContent messageContent);
 }

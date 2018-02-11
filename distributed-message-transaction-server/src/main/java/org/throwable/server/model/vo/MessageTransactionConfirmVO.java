@@ -3,6 +3,8 @@ package org.throwable.server.model.vo;
 import lombok.Data;
 import lombok.ToString;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * @author throwable
  * @version v1.0
@@ -13,5 +15,8 @@ import lombok.ToString;
 @ToString
 public class MessageTransactionConfirmVO {
 
+	@NotNull(message = "transactionId must not be null!")
 	private String transactionId;
+	@NotNull(message = "transactionStatus must not be null!")
+	private Integer transactionStatus;
 }

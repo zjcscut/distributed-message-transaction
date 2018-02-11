@@ -10,8 +10,17 @@ import org.throwable.server.model.entity.MessageLog;
  */
 public interface MessageLogRepository {
 
+    MessageLog findById(Long id);
+
     MessageLog findByTransactionId(String transactionId);
 
     int save(MessageLog messageLog);
 
+    int updateForRegisterConfirm(MessageLog messageLog);
+
+    int updateForTransactionConfirm(MessageLog messageLog);
+
+    int updateForPush(MessageLog messageLog);
+
+    int updateForDelayConfirm(MessageLog messageLog);
 }

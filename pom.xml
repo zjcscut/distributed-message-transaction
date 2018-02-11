@@ -8,6 +8,7 @@
     <modules>
         <module>distributed-message-transaction-server</module>
         <module>distributed-message-transaction-core</module>
+        <module>distributed-message-transaction-client</module>
     </modules>
     <name>distributed-message-transaction</name>
     <properties>

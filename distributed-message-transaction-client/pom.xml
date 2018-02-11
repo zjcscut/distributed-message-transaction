@@ -1,0 +1,23 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <artifactId>distributed-message-transaction</artifactId>
+        <groupId>org.throwable</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>distributed-message-transaction-client</artifactId>
+    <packaging>jar</packaging>
+    <name>distributed-message-transaction-client</name>
+    <dependencies>
+
+        <dependency>
+            <groupId>org.throwable</groupId>
+            <artifactId>distributed-message-transaction-core</artifactId>
+        </dependency>
+
+    </dependencies>
+    <build>
+        <finalName>distributed-message-transaction-client</finalName>
+    </build>
+</project>

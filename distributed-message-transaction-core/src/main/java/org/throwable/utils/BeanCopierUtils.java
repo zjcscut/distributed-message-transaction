@@ -1,5 +1,6 @@
 package org.throwable.utils;
 
+import lombok.NonNull;
 import net.sf.cglib.beans.BeanCopier;
 
 import java.util.ArrayList;
@@ -18,6 +19,10 @@ public enum BeanCopierUtils {
     INSTANCE;
 
     private static final Map<String, BeanCopier> BEAN_COPIER_CACHE = new HashMap<>();
+
+    public void copy(@NonNull Object source,@NonNull Object target){
+        getOrCreateBeanCopier(source.getClass(), target.getClass()).copy(source, target, null);
+    }
 
     public <S, T> T copy(S source, Class<T> targetClass) throws Exception {
         AssertUtils.INSTANCE.assertThrowRuntimeException(null != source, () -> new NullPointerException("Source must not be null!"));

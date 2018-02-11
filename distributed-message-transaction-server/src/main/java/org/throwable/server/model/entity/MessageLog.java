@@ -1,7 +1,8 @@
 package org.throwable.server.model.entity;
 
 import lombok.Data;
-import org.throwable.server.common.TransactionStatusEnum;
+import org.throwable.server.common.GlobalStatusEnum;
+import org.throwable.common.TransactionStatusEnum;
 
 import java.util.Date;
 
@@ -25,7 +26,9 @@ public class MessageLog {
     private String checkQueue;
     private String checkerClassName;
     private Date createTime;
+    private Date updateTime;
     private Date triggerTime;
+    private Date confirmTime;
     private Date pushTime;
 
     public void setTransactionStatusEnum(TransactionStatusEnum transactionStatusEnum) {
@@ -35,6 +38,19 @@ public class MessageLog {
     public TransactionStatusEnum getTransactionStatusEnum() {
         for (TransactionStatusEnum status : TransactionStatusEnum.values()) {
             if (null != this.transactionStatus && status.ordinal() == this.transactionStatus) {
+                return status;
+            }
+        }
+        return null;
+    }
+
+    public void setGlobalStatusEnum(GlobalStatusEnum globalStatusEnum) {
+        this.globalStatus = globalStatusEnum.ordinal();
+    }
+
+    public GlobalStatusEnum getGlobalStatusEnum() {
+        for (GlobalStatusEnum status : GlobalStatusEnum.values()) {
+            if (null != this.globalStatus && status.ordinal() == this.globalStatus) {
                 return status;
             }
         }

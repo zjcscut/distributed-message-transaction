@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "dmt.client.base.instance-sign",
+      "type": "java.lang.String",
+      "sourceType": "org.throwable.client.configuration.BaseClientProperties"
+    }
+  ]
+}

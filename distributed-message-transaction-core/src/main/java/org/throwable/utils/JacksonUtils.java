@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.util.StringUtils;
-import org.throwable.common.GlobalConstants;
+import org.throwable.common.CommonConstants;
 import org.throwable.exception.JsonDeserializeException;
 import org.throwable.exception.JsonSerializeException;
 
@@ -26,13 +26,13 @@ public enum JacksonUtils {
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     static {
-        MAPPER.setDateFormat(new SimpleDateFormat(GlobalConstants.DATETIME_PATTERN));
+        MAPPER.setDateFormat(new SimpleDateFormat(CommonConstants.DATETIME_PATTERN));
         MAPPER.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         MAPPER.disable(DeserializationFeature.FAIL_ON_NUMBERS_FOR_ENUMS);
         MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
 
-    public static String toJson(Object value) {
+    public String toJson(Object value) {
         AssertUtils.INSTANCE.assertThrowRuntimeException(null != value,
                 () -> new IllegalArgumentException("Value must be null!"));
         try {
@@ -42,7 +42,7 @@ public enum JacksonUtils {
         }
     }
 
-    public static <T> T parse(String content, Class<T> clazz) {
+    public <T> T parse(String content, Class<T> clazz) {
         AssertUtils.INSTANCE.assertThrowRuntimeException(StringUtils.hasText(content),
                 () -> new IllegalArgumentException("Content must be blank!"));
         try {
@@ -52,13 +52,13 @@ public enum JacksonUtils {
         }
     }
 
-    public static <T> List<T> parseList(String content, Class<T> clazz) {
+    public <T> List<T> parseList(String content, Class<T> clazz) {
         AssertUtils.INSTANCE.assertThrowRuntimeException(StringUtils.hasText(content),
                 () -> new IllegalArgumentException("Content must be blank!"));
         return parse(content, List.class, clazz);
     }
 
-    private static <T> T parse(String jsonString, JavaType javaType) {
+    private <T> T parse(String jsonString, JavaType javaType) {
         try {
             return (T) MAPPER.readValue(jsonString, javaType);
         } catch (Exception e) {
@@ -66,11 +66,11 @@ public enum JacksonUtils {
         }
     }
 
-    private static <T> T parse(String jsonString, Class<?> parametrized, Class<?>... parameterClasses) {
+    private <T> T parse(String jsonString, Class<?> parametrized, Class<?>... parameterClasses) {
         return (T) parse(jsonString, constructParametricType(parametrized, parameterClasses));
     }
 
-    private static JavaType constructParametricType(Class<?> parametrized, Class<?>... parameterClasses) {
+    private JavaType constructParametricType(Class<?> parametrized, Class<?>... parameterClasses) {
         return MAPPER.getTypeFactory().constructParametricType(parametrized, parameterClasses);
     }
 }

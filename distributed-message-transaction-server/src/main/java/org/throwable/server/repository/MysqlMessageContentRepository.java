@@ -26,7 +26,17 @@ public class MysqlMessageContentRepository implements MessageContentRepository {
 
     @Override
     public MessageContent findByMessageLogId(@NonNull Long id) {
-        String sql = "SELECT * FROM t_transaction_message_content WHERE id = ?";
+        String sql = "SELECT * FROM t_transaction_message_content WHERE message_log_id = ?";
         return jdbcTemplate.queryForObject(sql, ROW_MAPPER, id);
+    }
+
+    @Override
+    public int save(MessageContent messageContent) {
+        String sql = "INSERT INTO t_transaction_message_content(id,message_log_id,content) VALUES(?,?,?)";
+        return jdbcTemplate.update(sql, preparedStatement -> {
+            preparedStatement.setLong(1, messageContent.getId());
+            preparedStatement.setLong(2, messageContent.getMessageLogId());
+            preparedStatement.setString(3, messageContent.getContent());
+        });
     }
 }
