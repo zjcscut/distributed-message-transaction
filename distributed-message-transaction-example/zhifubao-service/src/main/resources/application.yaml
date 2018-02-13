@@ -1,0 +1,19 @@
+server:
+  port: 9102
+spring:
+  application:
+    name: zhifubao-service
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  datasource:
+    url: jdbc:mysql://localhost:3306/zhifubao-service?useSSL=false
+    password: root
+    username: root
+    driver-class-name: com.mysql.jdbc.Driver
+dmt:
+  client:
+    base:
+      instance-sign: zhifubao-service-instance

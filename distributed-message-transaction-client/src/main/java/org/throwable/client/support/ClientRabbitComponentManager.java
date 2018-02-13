@@ -6,8 +6,6 @@ import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.InitializingBean;
-import org.throwable.client.exception.QueueAlreadyExistException;
-import org.throwable.utils.AssertUtils;
 
 /**
  * @author throwable
@@ -31,17 +29,7 @@ public class ClientRabbitComponentManager implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        checkQueues();
         declareQueues();
-    }
-
-    private void checkQueues() {
-        String triggerQueue = clientRabbitQueueExtractor.getTriggerQueue();
-        AssertUtils.INSTANCE.assertThrowRuntimeException(Boolean.TRUE.equals(checkQueueExist(triggerQueue)),
-                () -> new QueueAlreadyExistException(String.format("Trigger queue [%s] already exists in the broker!", triggerQueue)));
-        String checkQueue = clientRabbitQueueExtractor.getCheckQueue();
-        AssertUtils.INSTANCE.assertThrowRuntimeException(Boolean.TRUE.equals(checkQueueExist(checkQueue)),
-                () -> new QueueAlreadyExistException(String.format("Check queue [%s] already exists in the broker!", checkQueue)));
     }
 
     private void declareQueues() {
@@ -55,17 +43,5 @@ public class ClientRabbitComponentManager implements InitializingBean {
         Queue queue = new Queue(queueName, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, null);
         amqpAdmin.declareQueue(queue);
         amqpAdmin.declareBinding(BindingBuilder.bind(queue).to(exchange).withQueueName());
-    }
-
-    private boolean checkQueueExist(String queueName) {
-        return rabbitTemplate.execute(channel -> {
-            try {
-                channel.queueDeclarePassive(queueName);
-                return Boolean.TRUE;
-            } catch (Exception e) {
-                //ignore
-            }
-            return Boolean.FALSE;
-        });
     }
 }

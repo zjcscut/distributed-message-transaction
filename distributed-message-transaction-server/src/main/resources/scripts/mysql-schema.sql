@@ -1,3 +1,8 @@
+
+CREATE DATABASE IF NOT EXISTS `dmt_server` CHARSET utf8mb4 COLLATE utf8mb4_unicode_520_ci;
+
+USE `dmt_server`;
+
 CREATE TABLE `t_transaction_message_log`(
   id BIGINT UNSIGNED NOT NULL PRIMARY KEY,
   transaction_id VARCHAR(50) NOT NULL COMMENT '事务标识',

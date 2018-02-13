@@ -1,0 +1,23 @@
+server:
+  port: 9100
+spring:
+  application:
+    name: ${project.artifactId:distributed-message-transaction-server}
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+dmt:
+  server:
+    druid:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/dmt_server?useSSL=false
+      password: root
+      username: root
+      enable: true
+    base:
+      register-concurrent-consumer-number: 10
+      register-max-concurrent-consumer-number: 20
+      confirm-concurrent-consumer-number: 10
+      confirm-max-concurrent-consumer-number: 20

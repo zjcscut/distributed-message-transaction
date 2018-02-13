@@ -1,4 +1,4 @@
-package org.throwable.client.support.listener;
+package org.throwable.client.support;
 
 import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.core.MessageBuilder;
@@ -11,6 +11,7 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.util.StringUtils;
 import org.throwable.client.common.LocalTransactionStatusEnum;
 import org.throwable.client.common.ServerTransactionStatusEnum;
+import org.throwable.client.configuration.BaseClientProperties;
 import org.throwable.client.model.CheckLocalTransactionCallback;
 import org.throwable.client.model.MessageTransactionConfirm;
 import org.throwable.client.support.ClientRabbitQueueExtractor;
@@ -37,6 +38,9 @@ public class LocalTransactionCheckListener extends AbstractMessageListener<Check
 
     @Autowired
     private ClientRabbitQueueExtractor clientRabbitQueueExtractor;
+
+    @Autowired
+	private BaseClientProperties baseClientProperties;
 
     @Override
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
@@ -71,11 +75,11 @@ public class LocalTransactionCheckListener extends AbstractMessageListener<Check
 
     @Override
     public Integer getConcurrentConsumerNumber() {
-        return 5;
+        return baseClientProperties.getCheckConcurrentConsumerNumber();
     }
 
     @Override
     public Integer getMaxConcurrentConsumerNumber() {
-        return 10;
+        return baseClientProperties.getCheckMaxConcurrentConsumerNumber();
     }
 }

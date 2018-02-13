@@ -2,8 +2,6 @@ package org.throwable.client.support;
 
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.beans.factory.InitializingBean;
-import org.throwable.client.support.listener.LocalTransactionCheckListener;
-import org.throwable.client.support.listener.LocalTransactionTriggerListener;
 import org.throwable.support.ListenerContainerFactory;
 import org.throwable.support.ListenerContainerRegistrar;
 

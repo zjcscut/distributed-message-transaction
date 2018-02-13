@@ -62,7 +62,7 @@ public class MysqlMessageLogRepository implements MessageLogRepository {
             preparedStatement.setInt(1, messageLog.getGlobalStatus());
             preparedStatement.setTimestamp(2, new Timestamp(messageLog.getTriggerTime().getTime()));
             preparedStatement.setTimestamp(3, new Timestamp(messageLog.getUpdateTime().getTime()));
-            preparedStatement.setLong(3, messageLog.getId());
+            preparedStatement.setLong(4, messageLog.getId());
         });
     }
 

@@ -1,9 +1,10 @@
 package org.throwable.client.support;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
+import org.throwable.client.configuration.BaseClientProperties;
 
 /**
  * @author throwable
@@ -13,15 +14,28 @@ import org.springframework.util.StringUtils;
  */
 public class ApplicationInfoExtractor implements EnvironmentAware {
 
-    private String applicationName;
+	private String applicationName;
+	private String instanceSign;
 
-    @Override
-    public void setEnvironment(Environment environment) {
-        applicationName = environment.getProperty("spring.application.name");
-        Assert.isTrue(StringUtils.hasText(applicationName), "spring.application.name must not be null");
-    }
+	@Autowired
+	private BaseClientProperties baseClientProperties;
 
-    public String extractApplicationName() {
-        return applicationName;
-    }
+	@Override
+	public void setEnvironment(Environment environment) {
+		applicationName = environment.getProperty("spring.application.name");
+		Assert.hasText(applicationName, "spring.application.name must not be null");
+		instanceSign = environment.getProperty("dmt.client.base.instance-sign");
+		if (null == instanceSign) {
+			instanceSign = baseClientProperties.getInstanceSign();
+		}
+		Assert.hasText(instanceSign, "instanceSign must not be null");
+	}
+
+	public String extractApplicationName() {
+		return applicationName;
+	}
+
+	public String extractInstanceSign() {
+		return instanceSign;
+	}
 }

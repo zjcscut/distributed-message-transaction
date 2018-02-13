@@ -9,6 +9,7 @@
         <module>distributed-message-transaction-server</module>
         <module>distributed-message-transaction-core</module>
         <module>distributed-message-transaction-client</module>
+        <module>distributed-message-transaction-example</module>
     </modules>
     <name>distributed-message-transaction</name>
     <properties>
@@ -56,6 +57,16 @@
             <dependency>
                 <groupId>org.throwable</groupId>
                 <artifactId>distributed-message-transaction-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.throwable</groupId>
+                <artifactId>distributed-message-transaction-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.throwable</groupId>
+                <artifactId>distributed-message-transaction-server</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

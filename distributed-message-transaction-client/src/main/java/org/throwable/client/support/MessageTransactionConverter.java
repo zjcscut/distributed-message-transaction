@@ -11,8 +11,14 @@ import org.throwable.client.model.MessageTransaction;
  */
 public class MessageTransactionConverter {
 
-    public InternalMessageTransaction convert(MessageTransaction messageTransaction) {
-        InternalMessageTransaction transaction = new InternalMessageTransaction();
-        return transaction;
-    }
+	public InternalMessageTransaction convert(MessageTransaction messageTransaction) {
+		InternalMessageTransaction transaction = new InternalMessageTransaction();
+		transaction.setBusinessSign(messageTransaction.getBusinessSign());
+		transaction.setPresents(messageTransaction.getDestinationMessages());
+		if (null != messageTransaction.getLocalTransactionCheckerClass()) {
+			transaction.setCheckerClassName(messageTransaction.getLocalTransactionCheckerClass().getName());
+		}
+		transaction.setPresents(messageTransaction.getDestinationMessages());
+		return transaction;
+	}
 }

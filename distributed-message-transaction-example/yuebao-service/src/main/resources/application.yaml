@@ -1,0 +1,19 @@
+server:
+  port: 9101
+spring:
+  application:
+    name: yuebao-service
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  datasource:
+    url: jdbc:mysql://localhost:3306/yuebao-service?useSSL=false
+    password: root
+    username: root
+    driver-class-name: com.mysql.jdbc.Driver
+dmt:
+  client:
+    base:
+      instance-sign: yuebao-service-instance
