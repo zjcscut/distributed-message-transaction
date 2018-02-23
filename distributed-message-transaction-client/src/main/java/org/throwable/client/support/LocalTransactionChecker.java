@@ -11,10 +11,11 @@ import org.throwable.client.model.CheckLocalTransactionCallback;
  */
 public interface LocalTransactionChecker {
 
-    /**
-     * 检查本地事务
-     *
-     * @return LocalTransactionStatusEnum
-     */
-    LocalTransactionStatusEnum checkLocalTransaction(CheckLocalTransactionCallback callback);
+	/**
+	 * 检查本地事务
+	 *
+	 * @param callback callback
+	 * @return LocalTransactionStatusEnum
+	 */
+	LocalTransactionStatusEnum checkLocalTransaction(CheckLocalTransactionCallback callback);
 }

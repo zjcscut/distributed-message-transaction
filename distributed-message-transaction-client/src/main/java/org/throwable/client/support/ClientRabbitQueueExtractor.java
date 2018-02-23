@@ -1,10 +1,7 @@
 package org.throwable.client.support;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.throwable.client.configuration.BaseClientProperties;
 import org.throwable.common.RabbitConstants;
-import org.throwable.utils.AssertUtils;
 
 /**
  * @author throwable
@@ -12,19 +9,10 @@ import org.throwable.utils.AssertUtils;
  * @description
  * @since 2018/2/11 17:51
  */
-public class ClientRabbitQueueExtractor implements InitializingBean {
+public class ClientRabbitQueueExtractor{
 
     @Autowired
     private ApplicationInfoExtractor applicationInfoExtractor;
-
-    @Autowired
-    private BaseClientProperties baseClientProperties;
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        AssertUtils.INSTANCE.assertThrowRuntimeException(null != baseClientProperties.getInstanceSign(),
-                () -> new IllegalArgumentException("InstanceSign must not be null!"));
-    }
 
     public String getTriggerQueue() {
         return getQueueBound(RabbitConstants.TRIGGER_QUEUE_NAME);
@@ -35,6 +23,6 @@ public class ClientRabbitQueueExtractor implements InitializingBean {
     }
 
     private String getQueueBound(String queueName) {
-        return String.format("%s.%s.%s", queueName, applicationInfoExtractor.extractApplicationName(), baseClientProperties.getInstanceSign());
+        return String.format("%s.%s.%s", queueName, applicationInfoExtractor.extractApplicationName(), applicationInfoExtractor.extractInstanceSign());
     }
 }
