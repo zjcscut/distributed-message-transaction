@@ -49,15 +49,10 @@ public class YueBaoApplication implements CommandLineRunner {
 	@Override
 	public void run(String... strings) throws Exception {
 		List<Account> accounts = jdbcTemplate.query("SELECT * FROM t_account", ROW_MAPPER);
-		List<AccountDTO> dtos = new ArrayList<>(accounts.size());
 		for (Account account : accounts) {
 			AccountDTO dto = new AccountDTO();
 			dto.setUserId(account.getUserId());
 			dto.setAmount(RANDOM.nextInt(1000));
-			account.setAmount(account.getAmount() - dto.getAmount());
-			dtos.add(dto);
-		}
-		for (AccountDTO dto : dtos) {
 			MessageTransaction transaction = new MessageTransaction();
 			transaction.setBusinessSign(dto.getUserId());
 			List<DestinationMessage> destinationMessages = new ArrayList<>(1);
@@ -67,11 +62,10 @@ public class YueBaoApplication implements CommandLineRunner {
 			destinationMessages.add(destinationMessage);
 			transaction.setDestinationMessages(destinationMessages);
 			LocalTransactionExecutor executor = () -> {
-				Account account = getAccount(dto.getUserId(), accounts);
 				jdbcTemplate.update("UPDATE t_account SET amount = ? WHERE id = ?", new PreparedStatementSetter() {
 					@Override
 					public void setValues(PreparedStatement ps) throws SQLException {
-						ps.setInt(1, account.getAmount());
+						ps.setInt(1, account.getAmount() - dto.getAmount());
 						ps.setInt(2, account.getId());
 					}
 				});
@@ -80,14 +74,6 @@ public class YueBaoApplication implements CommandLineRunner {
 			transaction.setLocalTransactionExecutor(executor);
 			messageTransactionTemplate.processMessageTransaction(transaction);
 		}
-	}
 
-	private Account getAccount(String userId, List<Account> accounts) {
-		for (Account account : accounts) {
-			if (account.getUserId().equals(userId)) {
-				return account;
-			}
-		}
-		throw new IllegalArgumentException("Not reach");
 	}
 }

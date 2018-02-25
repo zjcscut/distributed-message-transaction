@@ -54,7 +54,8 @@ public class RegisterConfirmCallbackListener {
             messageLog.setUpdateTime(new Date());
         } else {
             if (log.isWarnEnabled()) {
-                log.warn("Miss trigger queue [{}] to confirm transaction registered,target queue is not existed in the broker", messageLog.getTriggerQueue());
+                log.warn("Miss trigger queue [{}] to confirm transaction registered,target queue is not existed in the broker,transactionId [{}]",
+						messageLog.getTriggerQueue(), messageLog.getTransactionId());
             }
             messageLog.setGlobalStatusEnum(GlobalStatusEnum.MISS_TRIGGER);
             messageLog.setTriggerTime(new Date());

@@ -4,6 +4,56 @@
       "name": "dmt.client.base.instance-sign",
       "type": "java.lang.String",
       "sourceType": "org.throwable.client.configuration.BaseClientProperties"
+    },
+    {
+      "name": "dmt.client.base.trigger-transaction-timeout-second",
+      "type": "java.lang.Integer",
+      "sourceType": "org.throwable.client.configuration.BaseClientProperties"
+    },
+    {
+      "name": "dmt.client.base.execute-transaction-timeout-second",
+      "type": "java.lang.Integer",
+      "sourceType": "org.throwable.client.configuration.BaseClientProperties"
+    },
+    {
+      "name": "dmt.client.base.core-pool-size",
+      "type": "java.lang.Integer",
+      "sourceType": "org.throwable.client.configuration.BaseClientProperties"
+    },
+    {
+      "name": "dmt.client.base.max-pool-size",
+      "type": "java.lang.Integer",
+      "sourceType": "org.throwable.client.configuration.BaseClientProperties"
+    },
+    {
+      "name": "dmt.client.base.keep-alive-second",
+      "type": "java.lang.Long",
+      "sourceType": "org.throwable.client.configuration.BaseClientProperties"
+    },
+    {
+      "name": "dmt.client.base.pool-queue-capacity",
+      "type": "java.lang.Integer",
+      "sourceType": "org.throwable.client.configuration.BaseClientProperties"
+    },
+    {
+      "name": "dmt.client.base.trigger-concurrent-consumer-number",
+      "type": "java.lang.Integer",
+      "sourceType": "org.throwable.client.configuration.BaseClientProperties"
+    },
+    {
+      "name": "dmt.client.base.trigger-max-concurrent-consumer-number",
+      "type": "java.lang.Integer",
+      "sourceType": "org.throwable.client.configuration.BaseClientProperties"
+    },
+    {
+      "name": "dmt.client.base.check-concurrent-consumer-number",
+      "type": "java.lang.Integer",
+      "sourceType": "org.throwable.client.configuration.BaseClientProperties"
+    },
+    {
+      "name": "dmt.client.base.check-max-concurrent-consumer-number",
+      "type": "java.lang.Integer",
+      "sourceType": "org.throwable.client.configuration.BaseClientProperties"
     }
   ]
 }

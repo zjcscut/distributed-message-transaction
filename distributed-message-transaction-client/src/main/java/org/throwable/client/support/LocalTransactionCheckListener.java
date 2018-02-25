@@ -65,7 +65,7 @@ public class LocalTransactionCheckListener extends AbstractMessageListener<Check
 
     @Override
     public String getTargetQueueName() {
-        return clientRabbitQueueExtractor.getTriggerQueue();
+        return clientRabbitQueueExtractor.getCheckQueue();
     }
 
     @Override

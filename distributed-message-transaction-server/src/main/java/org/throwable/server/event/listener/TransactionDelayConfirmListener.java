@@ -71,14 +71,14 @@ public class TransactionDelayConfirmListener {
                     messageLog.setGlobalStatusEnum(GlobalStatusEnum.CHECK);
                 } else {
                     if (log.isWarnEnabled()) {
-                        log.warn("Miss check local transaction status for CheckQueue is not existed in the broker!");
+                        log.warn("Miss check local transaction status for CheckQueue is not existed in the broker,transactionId [{}]",messageLog.getTransactionId());
                     }
                     messageLog.setTransactionStatusEnum(TransactionStatusEnum.FAIL);
                     messageLog.setGlobalStatusEnum(GlobalStatusEnum.MISS_CHECK);
                 }
             } else {
                 if (log.isWarnEnabled()) {
-                    log.warn("Miss check local transaction status for CheckQueue or CheckerClassName is null!");
+                    log.warn("Miss check local transaction status for 'CheckQueue' or 'CheckerClassName' is null,transactionId [{}]",messageLog.getTransactionId());
                 }
                 messageLog.setTransactionStatusEnum(TransactionStatusEnum.FAIL);
                 messageLog.setGlobalStatusEnum(GlobalStatusEnum.MISS_CHECK);
@@ -87,6 +87,10 @@ public class TransactionDelayConfirmListener {
             messageLogRepository.updateForDelayConfirm(messageLog);
         } else {
             //如果事务状态已经是终结状态、未推送消息并且事务是成功的
+			//TODO 这里有可能出现一个问题：当需要发送的消息列表多于一个的时候，有可能出现部分成功，部分失败的可能
+			//解决方案：
+			//(1)使用rabbitmq的事务，不过性能是比较差的
+			//(2)考虑每条远端的消息用单独一行来存放，这样可能明确知道哪条推送成功，哪条推送失败的
             if (!GlobalStatusEnum.PUSH.equals(messageLog.getGlobalStatusEnum()) && TransactionStatusEnum.SUCCESS.equals(transactionStatusEnum)) {
                 MessageContent messageContent = messageContentRepository.findByMessageLogId(messageLog.getId());
                 List<PresentVO> presents = JacksonUtils.INSTANCE.parseList(messageContent.getContent(), PresentVO.class);
@@ -94,7 +98,7 @@ public class TransactionDelayConfirmListener {
                     for (PresentVO present : presents) {
                         Boolean queueExisted = rabbitTemplate.execute(channel -> {
                             try {
-                                channel.queueDeclarePassive(present.getQueue());
+                                channel.queueDeclarePassive(present.getDestination());
                                 return Boolean.TRUE;
                             } catch (Exception e) {
                                 //ignore
@@ -102,10 +106,10 @@ public class TransactionDelayConfirmListener {
                             return Boolean.FALSE;
                         });
                         if (Boolean.FALSE.equals(queueExisted)) {
-                            serverRabbitComponentManager.declareDirectQueue(present.getQueue());
+                            serverRabbitComponentManager.declareDirectQueue(present.getDestination());
                         }
-                        rabbitTemplate.send(present.getQueue(), present.getQueue(),
-                                MessageBuilder.withBody(present.getMessageBody().getBytes(CommonConstants.CHARSET)).build());
+                        rabbitTemplate.send(present.getDestination(), present.getDestination(),
+                                MessageBuilder.withBody(present.getContent().getBytes(CommonConstants.CHARSET)).build());
                     }
                     messageLog.setPushTime(new Date());
                     messageLog.setUpdateTime(new Date());

@@ -27,46 +27,46 @@ import java.util.List;
  */
 public class TransactionConfirmListener {
 
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
+	@Autowired
+	private RabbitTemplate rabbitTemplate;
 
-    @Autowired
-    private MessageLogRepository messageLogRepository;
+	@Autowired
+	private MessageLogRepository messageLogRepository;
 
-    @Autowired
-    private MessageContentRepository messageContentRepository;
+	@Autowired
+	private MessageContentRepository messageContentRepository;
 
-    @Autowired
-    private ServerRabbitComponentManager serverRabbitComponentManager;
+	@Autowired
+	private ServerRabbitComponentManager serverRabbitComponentManager;
 
-    @EventListener
-    public void listen(TransactionConfirmEvent event) throws Exception {
-        MessageLog messageLog = event.getMessageLog();
-        MessageContent messageContent = messageContentRepository.findByMessageLogId(messageLog.getId());
-        if (!GlobalStatusEnum.PUSH.equals(messageLog.getGlobalStatusEnum()) && TransactionStatusEnum.SUCCESS.equals(messageLog.getTransactionStatusEnum())) {
-            List<PresentVO> presents = JacksonUtils.INSTANCE.parseList(messageContent.getContent(), PresentVO.class);
-            if (null != presents && !presents.isEmpty()) {
-                for (PresentVO present : presents) {
-                    Boolean queueExisted = rabbitTemplate.execute(channel -> {
-                        try {
-                            channel.queueDeclarePassive(present.getQueue());
-                            return Boolean.TRUE;
-                        } catch (Exception e) {
-                            //ignore
-                        }
-                        return Boolean.FALSE;
-                    });
-                    if (Boolean.FALSE.equals(queueExisted)) {
-                        serverRabbitComponentManager.declareDirectQueue(present.getQueue());
-                    }
-                    rabbitTemplate.send(present.getQueue(), present.getQueue(),
-                            MessageBuilder.withBody(present.getMessageBody().getBytes(CommonConstants.CHARSET)).build());
-                }
-            }
-            messageLog.setPushTime(new Date());
-            messageLog.setUpdateTime(new Date());
-            messageLog.setGlobalStatusEnum(GlobalStatusEnum.PUSH);
-            messageLogRepository.updateForPush(messageLog);
-        }
-    }
+	@EventListener
+	public void listen(TransactionConfirmEvent event) throws Exception {
+		MessageLog messageLog = event.getMessageLog();
+		MessageContent messageContent = messageContentRepository.findByMessageLogId(messageLog.getId());
+		if (!GlobalStatusEnum.PUSH.equals(messageLog.getGlobalStatusEnum()) && TransactionStatusEnum.SUCCESS.equals(messageLog.getTransactionStatusEnum())) {
+			List<PresentVO> presents = JacksonUtils.INSTANCE.parseList(messageContent.getContent(), PresentVO.class);
+			if (null != presents && !presents.isEmpty()) {
+				for (PresentVO present : presents) {
+					Boolean queueExisted = rabbitTemplate.execute(channel -> {
+						try {
+							channel.queueDeclarePassive(present.getDestination());
+							return Boolean.TRUE;
+						} catch (Exception e) {
+							//ignore
+						}
+						return Boolean.FALSE;
+					});
+					if (Boolean.FALSE.equals(queueExisted)) {
+						serverRabbitComponentManager.declareDirectQueue(present.getDestination());
+					}
+					rabbitTemplate.send(present.getDestination(), present.getDestination(),
+							MessageBuilder.withBody(present.getContent().getBytes(CommonConstants.CHARSET)).build());
+				}
+			}
+			messageLog.setPushTime(new Date());
+			messageLog.setUpdateTime(new Date());
+			messageLog.setGlobalStatusEnum(GlobalStatusEnum.PUSH);
+			messageLogRepository.updateForPush(messageLog);
+		}
+	}
 }

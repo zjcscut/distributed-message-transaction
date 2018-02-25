@@ -13,6 +13,6 @@ import lombok.ToString;
 @Data
 public class PresentVO {
 
-    private String queue;
-    private String messageBody;
+    private String destination;
+    private String content;
 }

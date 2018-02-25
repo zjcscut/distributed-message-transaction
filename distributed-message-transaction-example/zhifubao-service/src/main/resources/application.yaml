@@ -17,3 +17,5 @@ dmt:
   client:
     base:
       instance-sign: zhifubao-service-instance
+      execute-transaction-timeout-second: 1000000
+      trigger-transaction-timeout-second: 1000000
